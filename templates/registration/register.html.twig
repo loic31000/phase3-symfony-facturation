@@ -1,21 +1,94 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Inscription{% endblock %}
-
+{% block title %}Créer votre compte{% endblock %}
 {% block body %}
-    <h1>Créer un compte</h1>
+<main class="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4 font-sans">
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.first_name) }}
-        {{ form_row(registrationForm.last_name) }}
-        {{ form_row(registrationForm.company_name) }}
-        {{ form_row(registrationForm.iban) }}
-        {{ form_row(registrationForm.siret) }}
-        {{ form_row(registrationForm.plainPassword.first) }}
-        {{ form_row(registrationForm.plainPassword.second) }}
-        <button type="submit">S'inscrire</button>
-    {{ form_end(registrationForm) }}
+    <div class="text-center mb-6">
+        <div class="flex justify-center mb-3 text-blue-600">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/>
+                <path d="M12 16v-8"/>
+                <path d="M9 10h5a2 2 0 1 1 0 4h-4a2 2 0 1 0 0 4h5"/>
+            </svg>
+        </div>
+        <h1 class="text-2xl font-bold text-gray-900">Créez votre compte</h1>
+        <p class="mt-1 text-sm text-gray-500">
+            Ou <a href="{{ path('app_login') }}" class="text-blue-600 hover:underline">connectez-vous à votre compte</a>
+        </p>
+    </div>
 
-    <p>Déjà un compte ? <a href="{{ path('app_login') }}">Connexion</a></p>
+    <section class="bg-white w-full max-w-md rounded-xl shadow-sm border border-gray-200 p-8">
+
+        {{ form_start(registrationForm, {'attr': {'class': 'space-y-4'}}) }}
+
+            <div class="flex gap-4">
+                <div class="flex-1">
+                    {{ form_label(registrationForm.first_name, 'Prénom', {'label_attr': {'class': 'block text-xs font-medium text-gray-700 mb-1'}}) }}
+                    {{ form_widget(registrationForm.first_name, {'attr': {
+                        'class': 'block w-full px-3 py-2 border border-gray-300 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
+                        'placeholder': 'Jean'
+                    }}) }}
+                    <div class="text-red-500 text-xs mt-1">{{ form_errors(registrationForm.first_name) }}</div>
+                </div>
+                <div class="flex-1">
+                    {{ form_label(registrationForm.last_name, 'Nom', {'label_attr': {'class': 'block text-xs font-medium text-gray-700 mb-1'}}) }}
+                    {{ form_widget(registrationForm.last_name, {'attr': {
+                        'class': 'block w-full px-3 py-2 border border-gray-300 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
+                        'placeholder': 'Dupont'
+                    }}) }}
+                    <div class="text-red-500 text-xs mt-1">{{ form_errors(registrationForm.last_name) }}</div>
+                </div>
+            </div>
+
+            <div>
+                {{ form_label(registrationForm.company_name, 'Raison Sociale', {'label_attr': {'class': 'block text-xs font-medium text-gray-700 mb-1'}}) }}
+                {{ form_widget(registrationForm.company_name, {'attr': {
+                    'class': 'block w-full px-3 py-2 border border-gray-300 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
+                    'placeholder': 'Tech Solutions'
+                }}) }}
+                <div class="text-red-500 text-xs mt-1">{{ form_errors(registrationForm.company_name) }}</div>
+            </div>
+
+            <div>
+                {{ form_label(registrationForm.iban, 'IBAN', {'label_attr': {'class': 'block text-xs font-medium text-gray-700 mb-1'}}) }}
+                {{ form_widget(registrationForm.iban, {'attr': {
+                    'class': 'block w-full px-3 py-2 border border-gray-300 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
+                    'placeholder': 'FR76 1234 5678 9012 3456 7890 123'
+                }}) }}
+                <div class="text-red-500 text-xs mt-1">{{ form_errors(registrationForm.iban) }}</div>
+            </div>
+
+            <div>
+                {{ form_label(registrationForm.email, 'Adresse Email', {'label_attr': {'class': 'block text-xs font-medium text-gray-700 mb-1'}}) }}
+                {{ form_widget(registrationForm.email, {'attr': {
+                    'class': 'block w-full px-3 py-2 border border-gray-300 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
+                    'placeholder': 'contact@entreprise.fr'
+                }}) }}
+                <div class="text-red-500 text-xs mt-1">{{ form_errors(registrationForm.email) }}</div>
+            </div>
+
+            <div>
+                {{ form_label(registrationForm.plainPassword.first, 'Mot de passe', {'label_attr': {'class': 'block text-xs font-medium text-gray-700 mb-1'}}) }}
+                {{ form_widget(registrationForm.plainPassword.first, {'attr': {
+                    'class': 'block w-full px-3 py-2 border border-gray-300 rounded-md text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500',
+                    'placeholder': 'password',
+                    'type': 'password'
+                }}) }}
+                <div class="text-red-500 text-xs mt-1">{{ form_errors(registrationForm.plainPassword.first) }}</div>
+            </div>
+
+            <div class="hidden">
+                {{ form_widget(registrationForm.siret) }}
+                {{ form_widget(registrationForm.plainPassword.second) }}
+            </div>
+
+            <button type="submit"
+                    class="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Créer mon compte
+            </button>
+
+        {{ form_end(registrationForm) }}
+
+    </section>
+</main>
 {% endblock %}

@@ -1,11 +1,174 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Dashboard{% endblock %}
-
 {% block body %}
-    <h1>Dashboard de facturation</h1>
-    <p>Bienvenue {{ app.user.firstName }} {{ app.user.lastName }} !</p>
+<div class="flex h-screen bg-gray-100 font-sans">
 
-    <p>Voici votre espace de gestion de factures.</p>
-    <p><a href="{{ path('app_logout') }}">Se déconnecter</a></p>
+    {# Sidebar #}
+    <aside class="w-44 bg-white border-r border-gray-200 flex flex-col py-4 px-3 shrink-0">
+        <div class="flex items-center gap-2 mb-6 px-1">
+            <div class="text-blue-600">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/>
+                    <path d="M12 16v-8"/><path d="M9 10h5a2 2 0 1 1 0 4h-4a2 2 0 1 0 0 4h5"/>
+                </svg>
+            </div>
+            <span class="font-bold text-gray-900 text-sm">FacturSaaS</span>
+        </div>
+
+        <nav class="flex flex-col gap-1 flex-1">
+            <a href="{{ path('dashboard') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-50 text-blue-600 text-sm font-medium">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                Dashboard
+            </a>
+            <a href="#" class="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+                Factures
+            </a>
+            <a href="#" class="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Clients
+            </a>
+            <a href="#" class="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
+                Produits
+            </a>
+            <a href="{{ path('app_user_profile') }}" class="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-600 hover:bg-gray-50 text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                Profil
+            </a>
+        </nav>
+
+        {# User info + logout #}
+        <div class="border-t border-gray-200 pt-3 mt-3">
+            <div class="flex items-center gap-2 px-1 mb-2">
+                <div class="w-7 h-7 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center font-bold shrink-0">
+                    {{ app.user.firstName|first|upper }}{{ app.user.lastName|first|upper }}
+                </div>
+                <div class="min-w-0">
+                    <p class="text-xs font-medium text-gray-800 truncate">{{ app.user.companyName }}</p>
+                    <p class="text-xs text-gray-400 truncate">{{ app.user.email }}</p>
+                </div>
+            </div>
+            <a href="{{ path('app_logout') }}" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-red-500 hover:bg-red-50 text-xs font-medium">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                Déconnexion
+            </a>
+        </div>
+    </aside>
+
+    {# Main content #}
+    <main class="flex-1 overflow-y-auto p-6">
+        <h1 class="text-xl font-bold text-gray-900 mb-5">Dashboard</h1>
+
+        {# KPI Cards #}
+        <div class="grid grid-cols-4 gap-4 mb-6">
+            <div class="bg-white rounded-xl border border-gray-200 p-4">
+                <div class="w-9 h-9 rounded-lg bg-green-100 text-green-600 flex items-center justify-center mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+                </div>
+                <p class="text-xs text-gray-500 mb-1">Chiffre d'affaires (Payé)</p>
+                <p class="text-2xl font-bold text-gray-900">{{ stats.revenue|number_format(0, ',', ' ') }} €</p>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-200 p-4">
+                <div class="w-9 h-9 rounded-lg bg-orange-100 text-orange-500 flex items-center justify-center mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+                </div>
+                <p class="text-xs text-gray-500 mb-1">Factures en attente de paiement</p>
+                <p class="text-2xl font-bold text-gray-900">{{ stats.pendingInvoices }}</p>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-200 p-4">
+                <div class="w-9 h-9 rounded-lg bg-blue-100 text-blue-500 flex items-center justify-center mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <p class="text-xs text-gray-500 mb-1">Total Clients</p>
+                <p class="text-2xl font-bold text-gray-900">{{ stats.totalClients }}</p>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-200 p-4">
+                <div class="w-9 h-9 rounded-lg bg-purple-100 text-purple-500 flex items-center justify-center mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
+                </div>
+                <p class="text-xs text-gray-500 mb-1">Total Produits</p>
+                <p class="text-2xl font-bold text-gray-900">{{ stats.totalProducts }}</p>
+            </div>
+        </div>
+
+        {# Chart #}
+        <div class="bg-white rounded-xl border border-gray-200 p-5 mb-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-sm font-semibold text-gray-800">Chiffre d'affaires mensuel (Factures payées)</h2>
+                <select class="text-xs border border-gray-200 rounded-md px-2 py-1 text-gray-600 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                    <option>2023</option>
+                    <option>2024</option>
+                    <option>2025</option>
+                </select>
+            </div>
+            <canvas id="revenueChart" height="200"></canvas>
+        </div>
+
+        {# Quick Actions #}
+        <div class="grid grid-cols-3 gap-4">
+            <a href="#" class="bg-blue-50 border border-blue-100 rounded-xl p-4 flex items-center justify-between hover:bg-blue-100 transition-colors group">
+                <div>
+                    <p class="text-sm font-semibold text-gray-900">Créer une facture</p>
+                    <p class="text-xs text-blue-500 mt-0.5">Nouvelle prestation</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 group-hover:text-blue-500 transition-colors"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            <a href="#" class="bg-white border border-gray-200 rounded-xl p-4 flex items-center justify-between hover:bg-gray-50 transition-colors group">
+                <div>
+                    <p class="text-sm font-semibold text-gray-900">Ajouter un client</p>
+                    <p class="text-xs text-gray-400 mt-0.5">Gérer le répertoire</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 group-hover:text-gray-600 transition-colors"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            <a href="#" class="bg-white border border-gray-200 rounded-xl p-4 flex items-center justify-between hover:bg-gray-50 transition-colors group">
+                <div>
+                    <p class="text-sm font-semibold text-gray-900">Créer un produit / service</p>
+                    <p class="text-xs text-gray-400 mt-0.5">Enrichir le catalogue pour rédiger rapidement vos factures</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 group-hover:text-gray-600 transition-colors shrink-0"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            <a href="#" class="bg-white border border-gray-200 rounded-xl p-4 flex items-center justify-between hover:bg-gray-50 transition-colors group col-span-1">
+                <div>
+                    <p class="text-sm font-semibold text-gray-900">Relancer tous les clients</p>
+                    <p class="text-xs text-gray-400 mt-0.5">Envoyer un mail à tous les clients en retard de paiement</p>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 group-hover:text-gray-600 transition-colors shrink-0"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+        </div>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    const monthlyData = {{ stats.monthlyRevenue|json_encode|raw }};
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Aoû','Sep','Oct','Nov','Déc'],
+            datasets: [{
+                data: monthlyData,
+                backgroundColor: '#3b82f6',
+                borderRadius: 4,
+                borderSkipped: false,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#9ca3af' } },
+                y: {
+                    grid: { color: '#f3f4f6' },
+                    ticks: {
+                        font: { size: 11 },
+                        color: '#9ca3af',
+                        callback: v => v + '€'
+                    }
+                }
+            }
+        }
+    });
+</script>
 {% endblock %}
