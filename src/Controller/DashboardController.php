@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +13,6 @@ class DashboardController extends AbstractController
         if ($this->getUser()) {
             return $this->redirectToRoute('dashboard');
         }
-
         return $this->redirectToRoute('app_login');
     }
 
@@ -23,6 +21,14 @@ class DashboardController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
-        return $this->render('dashboard/index.html.twig');
+        return $this->render('dashboard/index.html.twig', [
+            'stats' => [
+                'revenue'         => 2250,
+                'pendingInvoices' => 1,
+                'totalClients'    => 2,
+                'totalProducts'   => 3,
+                'monthlyRevenue'  => [0, 0, 2250, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            ],
+        ]);
     }
 }
