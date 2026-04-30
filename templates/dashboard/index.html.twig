@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+    <h1>Dashboard de facturation</h1>
+    <p>Bienvenue {{ app.user.firstName }} {{ app.user.lastName }} !</p>
+
+    <p>Voici votre espace de gestion de factures.</p>
+    <p><a href="{{ path('app_logout') }}">Se déconnecter</a></p>
+{% endblock %}

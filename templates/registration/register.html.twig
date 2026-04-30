@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <h1>Créer un compte</h1>
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.first_name) }}
+        {{ form_row(registrationForm.last_name) }}
+        {{ form_row(registrationForm.company_name) }}
+        {{ form_row(registrationForm.iban) }}
+        {{ form_row(registrationForm.siret) }}
+        {{ form_row(registrationForm.plainPassword.first) }}
+        {{ form_row(registrationForm.plainPassword.second) }}
+        <button type="submit">S'inscrire</button>
+    {{ form_end(registrationForm) }}
+
+    <p>Déjà un compte ? <a href="{{ path('app_login') }}">Connexion</a></p>
+{% endblock %}
