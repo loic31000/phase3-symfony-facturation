@@ -19,6 +19,18 @@
         {% endif %}
     </head>
     <body>
+        <header>
+            <nav>
+                <a href="{{ path('dashboard') }}">Tableau de bord</a>
+                {% if app.user %}
+                    <a href="{{ path('app_user_profile') }}">Mon profil</a>
+                    <a href="{{ path('app_logout') }}">Se déconnecter</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}">Se connecter</a>
+                {% endif %}
+            </nav>
+        </header>
+
         {% block body %}{% endblock %}
     </body>
 </html>
