@@ -27,7 +27,8 @@ class Product
     private ?string $price = null;
 
     #[ORM\Column]
-    private ?int $quantity = null;
+    private ?int $quantity = 1;
+    
 
     #[ORM\Column(enumType: Unit::class, length: 255)]
     private ?Unit $unit = null;

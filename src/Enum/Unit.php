@@ -1,12 +1,11 @@
 <?php
-
 namespace App\Enum;
 
 enum Unit: string
 {
+    case HEURE = 'heure';
+    case JOUR = 'jour';
     case PIECE = 'piece';
-    case HOUR = 'hour';
-    case DAY = 'day';
-    case MONTH = 'month';
-    case YEAR = 'year';
+    case MOIS = 'mois';
+    case FORFAIT = 'forfait';
 }
