@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ product.name }}{% endblock %}
+
+{% block body %}
+<div class="flex h-screen bg-[#F8FAFC] font-sans">
+
+    {# 1. Sidebar à gauche #}
+    <twig:Sidebar />
+
+    {# 2. Contenu principal centré #}
+    <main class="flex-1 overflow-y-auto p-8 flex items-center justify-center">
+        
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 w-full max-w-md p-8 relative">
+            
+            {# Croix de fermeture pour annuler #}
+            <a href="{{ path('app_product_index') }}" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </a>
+
+            {# En-tête de la carte #}
+            <div class="mb-6">
+                <h1 class="text-xl font-bold text-gray-900">Produit - {{ product.name }}</h1>
+                <p class="text-sm text-gray-500 mt-1">Modifier un produit</p>
+            </div>
+
+            {# Formulaire #}
+            {{ form_start(form, {'attr': {'class': 'space-y-5'}}) }}
+                
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wider">Nom</label>
+                    {{ form_widget(form.name, {'attr': {'class': 'w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all'}}) }}
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wider">Description</label>
+                    {{ form_widget(form.description, {'attr': {'class': 'w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all', 'rows': '3'}}) }}
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wider">Prix</label>
+                        <div class="relative">
+                            {{ form_widget(form.price, {'attr': {'class': 'w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all'}}) }}
+                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm">€</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 mb-1.5 uppercase tracking-wider">Unité</label>
+                        {{ form_widget(form.unit, {'attr': {'class': 'w-full bg-white border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all'}}) }}
+                    </div>
+                </div>
+
+                {# Boutons d'action #}
+                <div class="flex justify-end gap-3 pt-6">
+                    <a href="{{ path('app_product_index') }}" class="px-6 py-2.5 text-sm font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-all">
+                        Annuler
+                    </a>
+                    <button type="submit" class="px-6 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm transition-all">
+                        Enregistrer
+                    </button>
+                </div>
+
+            {{ form_end(form) }}
+
+            {# Optionnel : Petit bouton de suppression discret en bas si besoin #}
+            <div class="mt-8 pt-6 border-t border-gray-50 flex justify-center">
+                 <form method="post" action="{{ path('app_product_delete', {'id': product.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                    <button class="text-xs text-red-400 hover:text-red-600 transition-colors uppercase font-bold tracking-widest">
+                        Supprimer le produit
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

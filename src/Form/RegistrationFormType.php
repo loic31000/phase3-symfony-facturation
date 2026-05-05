@@ -28,7 +28,7 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Nom',
             ])
             ->add('company_name', TextType::class, [
-                'label' => 'Raison sociale',
+                'label' => 'Raison Sociale',
             ])
             ->add('iban', TextType::class, [
                 'label' => 'IBAN',
