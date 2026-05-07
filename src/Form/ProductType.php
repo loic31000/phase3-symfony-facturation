@@ -3,9 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Product;
-use App\Enum\Unit; // ASSURE-TOI QUE CE CHEMIN EST LE BON (src/Enum/Unit.php)
+use App\Enum\Unit;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EnumType; // On utilise EnumType
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

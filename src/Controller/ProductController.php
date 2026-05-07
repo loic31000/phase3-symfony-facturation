@@ -14,34 +14,38 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/product')]
 final class ProductController extends AbstractController
 {
-    #[Route(name: 'app_product_index', methods: ['GET'])]
+    #[Route('/', name: 'app_product_index', methods: ['GET'])]
     public function index(ProductRepository $productRepository): Response
     {
+        $user = $this->getUser();
+        if (!$user) {
+            throw $this->createAccessDeniedException('Vous devez être connecté.');
+        }
+        $products = $productRepository->findBy(['user' => $user]);
+
         return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findAll(),
+            'products' => $products,
         ]);
     }
 
     #[Route('/new', name: 'app_product_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, ProductRepository $productRepository): Response
+    public function new(Request $request, EntityManagerInterface $em, ProductRepository $productRepository): Response
     {
         $product = new Product();
+        $product->setUser($this->getUser());
+
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($product);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Produit ajouté avec succès !');
-
-            return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+            $em->persist($product);
+            $em->flush();
+            return $this->redirectToRoute('app_product_index');
         }
 
         return $this->render('product/new.html.twig', [
-            'product' => $product,
-            'form' => $form,
-            'products' => $productRepository->findAll(),
+            'form' => $form->createView(),
+            'products' => $productRepository->findBy(['user' => $this->getUser()]),
         ]);
     }
 
@@ -54,35 +58,37 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Product $product, EntityManagerInterface $em): Response
     {
+        if ($product->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('Ce produit ne vous appartient pas.');
+        }
+
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Produit modifié avec succès !');
-
-            return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+            $em->flush();
+            return $this->redirectToRoute('app_product_index');
         }
 
         return $this->render('product/edit.html.twig', [
+            'form' => $form->createView(),
             'product' => $product,
-            'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: 'app_product_delete', methods: ['POST'])]
-    public function delete(Request $request, Product $product, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/delete', name: 'app_product_delete', methods: ['POST'])]
+    public function delete(Request $request, Product $product, EntityManagerInterface $em): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($product);
-            $entityManager->flush();
-            
-            $this->addFlash('success', 'Produit supprimé avec succès !');
+        if ($product->getUser() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
         }
 
-        return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+        if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
+            $em->remove($product);
+            $em->flush();
+        }
+        return $this->redirectToRoute('app_product_index');
     }
 }

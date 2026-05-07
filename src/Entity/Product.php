@@ -28,13 +28,17 @@ class Product
 
     #[ORM\Column]
     private ?int $quantity = 1;
-    
 
     #[ORM\Column(enumType: Unit::class, length: 255)]
     private ?Unit $unit = null;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: InvoiceItem::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $items;
+
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'products')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -54,7 +58,6 @@ class Product
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -66,7 +69,6 @@ class Product
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -78,7 +80,6 @@ class Product
     public function setPrice(string $price): static
     {
         $this->price = $price;
-
         return $this;
     }
 
@@ -90,7 +91,6 @@ class Product
     public function setQuantity(int $quantity): static
     {
         $this->quantity = $quantity;
-
         return $this;
     }
 
@@ -102,7 +102,6 @@ class Product
     public function setUnit(Unit $unit): static
     {
         $this->unit = $unit;
-
         return $this;
     }
 
@@ -120,7 +119,6 @@ class Product
             $this->items->add($item);
             $item->setProduct($this);
         }
-
         return $this;
     }
 
@@ -131,7 +129,17 @@ class Product
                 $item->setProduct(null);
             }
         }
+        return $this;
+    }
 
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
         return $this;
     }
 }
