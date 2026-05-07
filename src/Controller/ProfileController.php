@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\ProfileForm; 
+use App\Form\ProfileFormType;
 use Doctrine\ORM\EntityManagerInterface; 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request; 
@@ -17,7 +17,10 @@ final class ProfileController extends AbstractController
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        $form = $this->createForm(ProfileForm::class, $user);
+        if (!$user) {
+            throw $this->createAccessDeniedException('vous devez être connecté.');
+        }
+        $form = $this->createForm(ProfileFormType::class, $user);
 
         $form->handleRequest($request);
 
